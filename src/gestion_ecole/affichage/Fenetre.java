@@ -20,8 +20,6 @@ public class Fenetre extends JFrame {
 		
 		LeftPanel leftPanel = new LeftPanel();
 		contentPane.add(leftPanel);
-        
-        this.setVisible(true);
 		
 	}
 
