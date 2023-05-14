@@ -1,15 +1,15 @@
 package gestion_ecole.affichage;
 
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class RightPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private CardLayout cardLayout;
+	private ListStudent listStudent;
+	private CreateStudent createStudent;
 	
 	public RightPanel() {
 		super();
@@ -17,24 +17,28 @@ public class RightPanel extends JPanel {
 		this.setCardLayout(new CardLayout());
 		this.setLayout(cardLayout);
 		
-		JPanel card1 = new JPanel();
-        card1.setBackground(Color.RED);
-        JLabel label1 = new JLabel("Card 1");
-        card1.add(label1);
+		this.listStudent = new ListStudent();
+		this.createStudent = new CreateStudent();
+		
+		this.add(this.listStudent, "listStudent");
+		this.add(this.createStudent, "createStudent");
+		
+	}
 
-        JPanel card2 = new JPanel();
-        card2.setBackground(Color.GREEN);
-        JLabel label2 = new JLabel("Card 2");
-        card2.add(label2);
+	public ListStudent getListStudent() {
+		return listStudent;
+	}
 
-        JPanel card3 = new JPanel();
-        card3.setBackground(Color.BLUE);
-        JLabel label3 = new JLabel("Card 3");
-        card3.add(label3);
-        
-        this.add(card1, "card1");
-        this.add(card2, "card2");
-        this.add(card3, "card3");
+	public void setListStudent(ListStudent listStudent) {
+		this.listStudent = listStudent;
+	}
+
+	public CreateStudent getCreateStudent() {
+		return createStudent;
+	}
+
+	public void setCreateStudent(CreateStudent createStudent) {
+		this.createStudent = createStudent;
 	}
 
 	public CardLayout getCardLayout() {

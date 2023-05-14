@@ -3,6 +3,8 @@ package gestion_ecole.affichage;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import gestion_ecole.service.DBService;
+
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,7 @@ public class Fenetre extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private List<MenuButton> buttons = new ArrayList<MenuButton>();
 	private RightPanel rightPanel;
+	private DBService dbservice;
 	
 	
 	public RightPanel getRightPanel() {
@@ -35,10 +38,15 @@ public class Fenetre extends JFrame {
 			this.getRightPanel().getCardLayout().first(this.getRightPanel());
 		}));
 		this.buttons.add(new MenuButton( "Ajouter un nouveau étudiant", () -> {
-			this.getRightPanel().getCardLayout().show(this.getRightPanel(), "card2");
+			this.getRightPanel().getCardLayout().show(this.getRightPanel(), "createStudent");
 		}));
 		this.buttons.add(new MenuButton ("Modifier un étudiant", () -> {
 			System.out.println("Modifier un étudiant");
+			try {
+				this.getDbservice().createNewStudent("bain","toavina");
+			} catch (Exception e) {
+				System.out.println(e);
+			}
 		}));
 		this.buttons.add(new MenuButton( "supprimer un étudiant", () -> {
 			System.out.println("supprimer un étudiant");
@@ -60,7 +68,22 @@ public class Fenetre extends JFrame {
 		LeftPanel leftPanel = new LeftPanel(this.getButtons());
 		contentPane.add(leftPanel);
 		contentPane.add(this.rightPanel);
+		try {			
+			this.setDbservice(new DBService());
+		} catch (Exception e) {
+			// TODO: handle exception
+			
+			System.out.println("une erreur s'est produite");
+		}
 		
+	}
+
+	public DBService getDbservice() {
+		return dbservice;
+	}
+
+	public void setDbservice(DBService dbservice) {
+		this.dbservice = dbservice;
 	}
 
 }
