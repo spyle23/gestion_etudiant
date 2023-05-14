@@ -10,6 +10,7 @@ public class RightPanel extends JPanel {
 	private CardLayout cardLayout;
 	private ListStudent listStudent;
 	private CreateStudent createStudent;
+	private UpdateStudent updateStudent;
 	
 	public RightPanel() {
 		super();
@@ -19,8 +20,10 @@ public class RightPanel extends JPanel {
 		
 		this.listStudent = new ListStudent();
 		this.createStudent = new CreateStudent();
+		this.updateStudent = new UpdateStudent();
 		
 		this.add(this.listStudent, "listStudent");
+		this.add(this.updateStudent, "updateStudent");
 		this.add(this.createStudent, "createStudent");
 		
 	}
@@ -47,6 +50,14 @@ public class RightPanel extends JPanel {
 
 	public void setCardLayout(CardLayout cardLayout) {
 		this.cardLayout = cardLayout;
+	}
+
+	public UpdateStudent getUpdateStudent() {
+		return updateStudent;
+	}
+
+	public void setUpdateStudent(UpdateStudent updateStudent) {
+		this.updateStudent = updateStudent;
 	}
 
 }

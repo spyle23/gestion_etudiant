@@ -9,38 +9,44 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import gestion_ecole.service.DBService;
+import gestion_ecole.service.StudentModel;
 
-public class CreateStudent extends JPanel {
+public class UpdateStudent extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	private JTextField id;
 	private JTextField firstname;
 	private JTextField lastname;
 	private DBService service;
 	
 	
-	public CreateStudent() {
+	public UpdateStudent() {
 		super();
 		this.setPreferredSize(new Dimension(500, 400));
-		JLabel label = new JLabel("Nouveau étudiant");
-		JButton button = new JButton("Créer");
+		JLabel label = new JLabel("Modifier un étudiant");
+		JButton button = new JButton("Modifier");
 		
+		this.id = new JTextField("id");
 		this.firstname = new JTextField("Nom");
 		this.lastname = new JTextField("Prénom");
 		
 		label.setPreferredSize(new Dimension(400, 30));
 		button.setPreferredSize(new Dimension(400, 30));
+		this.id.setPreferredSize(new Dimension(400, 30));
 		this.firstname.setPreferredSize(new Dimension(400, 30));
 		this.lastname.setPreferredSize(new Dimension(400, 30));
 		
 		this.add(label);
+		this.add(id);
 		this.add(firstname);
 		this.add(lastname);
 		this.add(button);
 		
 		button.addActionListener((e)->{
-			try {				
-				String message = this.getService().createNewStudent(this.firstname.getText(), this.lastname.getText());
-				JOptionPane.showMessageDialog(null, message, "creation étudiant", JOptionPane.INFORMATION_MESSAGE);
+			try {
+				StudentModel update = new StudentModel(Integer.parseInt(this.id.getText()), this.firstname.getText(), this.lastname.getText());
+				String message = this.getService().updateStudent(update);
+				JOptionPane.showMessageDialog(null, message, "modification étudiant", JOptionPane.INFORMATION_MESSAGE);
 			} catch (Exception e2) {
 				// TODO: handle exception
 				e2.printStackTrace();
@@ -65,5 +71,13 @@ public class CreateStudent extends JPanel {
 	}
 	public void setLastname(JTextField lastname) {
 		this.lastname = lastname;
+	}
+
+	public JTextField getId() {
+		return id;
+	}
+
+	public void setId(JTextField id) {
+		this.id = id;
 	}
 }

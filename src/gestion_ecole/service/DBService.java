@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -33,22 +34,40 @@ public class DBService {
 	public void setConnection(Connection connection) {
 		this.connection = connection;
 	}
-	public void createNewStudent(String firstname, String lastname) throws SQLException {
+	public String createNewStudent(String firstname, String lastname) throws SQLException {
 		String requete = "INSERT INTO student (firstname, lastname) VALUES ('".concat(firstname).concat("','").concat(lastname).concat("')");
 		try ( Statement statement = this.getConnection().createStatement() ){
 			statement.executeUpdate(requete);
 		}
+		return " student created ";
 	}
-	public void deleteStudent(int id) throws SQLException {
+	public String deleteStudent(int id) throws SQLException {
 		String requete = "DELETE FROM student WHERE id="+ id;
 		try ( Statement statement = this.getConnection().createStatement() ){
 			statement.executeUpdate(requete);
 		}
+		return " student deleted ";
 	}
-	public ResultSet getAllStudent() throws SQLException {
+	public List<StudentModel> getAllStudent() throws SQLException {
 		String requete = "SELECT * FROM student";
+		List<StudentModel> listStudent = new ArrayList<StudentModel>();
 		try (Statement statement = this.getConnection().createStatement()) {
-			return statement.executeQuery(requete);
+			ResultSet result =  statement.executeQuery(requete);
+			
+			while (result.next()) {
+				listStudent.add(new StudentModel(result.getInt("id"), result.getString("firstname"), result.getString("lastname")));
+			}
+			
+			return listStudent;
+			
+			//System.out.println("current student: "+ result.getInt("id")+ " "+ result.getString("firstname")+ " "+ result.getString("lastname"));
 		}
+	}
+	public String updateStudent(StudentModel studentUpdate) throws SQLException {
+		String requete = "UPDATE student SET firstname = '"+ studentUpdate.getFirstname() + "', lastname = '"+ studentUpdate.getLastname()+ "' WHERE id = "+ studentUpdate.getId();
+		try ( Statement statement = this.getConnection().createStatement() ){
+			statement.executeUpdate(requete);
+		}
+		return " student updated ";
 	}
 }
