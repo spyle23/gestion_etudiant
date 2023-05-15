@@ -2,8 +2,12 @@ package gestion_ecole.affichage;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.util.List;
 
 import javax.swing.JPanel;
+
+import gestion_ecole.service.StudentModel;
+
 
 public class RightPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -12,13 +16,13 @@ public class RightPanel extends JPanel {
 	private CreateStudent createStudent;
 	private UpdateStudent updateStudent;
 	
-	public RightPanel() {
+	public RightPanel( List<StudentModel> studentList ) {
 		super();
 		this.setPreferredSize(new Dimension(400, 400));
 		this.setCardLayout(new CardLayout());
 		this.setLayout(cardLayout);
 		
-		this.listStudent = new ListStudent();
+		this.listStudent = new ListStudent( studentList );
 		this.createStudent = new CreateStudent();
 		this.updateStudent = new UpdateStudent();
 		

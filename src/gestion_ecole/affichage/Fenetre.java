@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import gestion_ecole.service.DBService;
+import gestion_ecole.service.StudentModel;
 
 import java.awt.FlowLayout;
 import java.sql.SQLException;
@@ -16,6 +17,7 @@ import java.util.List;
 public class Fenetre extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private List<MenuButton> buttons = new ArrayList<MenuButton>();
+	private List<StudentModel> studentList = new ArrayList<StudentModel>();
 	private RightPanel rightPanel;
 	private DBService dbservice;
 	
@@ -39,6 +41,13 @@ public class Fenetre extends JFrame {
 	private void initialiseButton() {
 		this.buttons.add(new MenuButton("Liste des étudiants", () -> {
 			this.getRightPanel().getCardLayout().first(this.getRightPanel());
+			try {				
+				this.setStudentList(this.getDbservice().getAllStudent());
+				this.getRightPanel().getListStudent().updateTable(this.getStudentList());
+			} catch (Exception e2) {
+				// TODO: handle exception
+				e2.printStackTrace();
+			}
 		}));
 		this.buttons.add(new MenuButton( "Ajouter un nouveau étudiant", () -> {
 			this.getRightPanel().getCardLayout().show(this.getRightPanel(), "createStudent");
@@ -76,8 +85,18 @@ public class Fenetre extends JFrame {
 		this.setSize(800, 400);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
+		try {			
+			this.setDbservice(new DBService());
+			this.setStudentList(this.getDbservice().getAllStudent());
+		} catch (Exception e) {
+			// TODO: handle exception
+			
+			System.out.println("une erreur s'est produite");
+		}
 		
-		this.rightPanel = new RightPanel();
+	
+		
+		this.rightPanel = new RightPanel( this.getStudentList() );
 		this.initialiseButton();
 		
 		JPanel contentPane = (JPanel) this.getContentPane();
@@ -86,13 +105,6 @@ public class Fenetre extends JFrame {
 		LeftPanel leftPanel = new LeftPanel(this.getButtons());
 		contentPane.add(leftPanel);
 		contentPane.add(this.rightPanel);
-		try {			
-			this.setDbservice(new DBService());
-		} catch (Exception e) {
-			// TODO: handle exception
-			
-			System.out.println("une erreur s'est produite");
-		}
 		
 	}
 
@@ -102,6 +114,14 @@ public class Fenetre extends JFrame {
 
 	public void setDbservice(DBService dbservice) {
 		this.dbservice = dbservice;
+	}
+
+	public List<StudentModel> getStudentList() {
+		return studentList;
+	}
+
+	public void setStudentList(List<StudentModel> studentList) {
+		this.studentList = studentList;
 	}
 
 }
